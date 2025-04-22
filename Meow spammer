@@ -1,0 +1,3 @@
+#Why didn't we do it the other way. Because you don't want the script meowing for the rest of the time from CMD. But, why not have a near infinite limit that lags the system out.
+for i in range(100000000000000):
+  print("meow")
