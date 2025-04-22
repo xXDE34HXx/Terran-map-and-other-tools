@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from noise import pnoise2
+
+def generate_terrain(width, height, scale=100, octaves=6, persistence=0.5, lacunarity=2.0, seed=None):
+    terrain = np.zeros((height, width))
+    if seed is None:
+        seed = np.random.randint(0, 100)
+
+    for y in range(height):
+        for x in range(width):
+            nx = x / scale
+            ny = y / scale
+            terrain[y][x] = pnoise2(nx, ny, octaves=octaves, persistence=persistence, 
+                                    lacunarity=lacunarity, repeatx=1024, repeaty=1024, base=seed)
+    return terrain
+
+def show_terrain(terrain):
+    plt.figure(figsize=(10, 6))
+    plt.imshow(terrain, cmap='terrain')
+    plt.colorbar()
+    plt.title("Generated Terrain")
+    plt.show()
+
+# Generate a single chunk
+terrain_chunk = generate_terrain(200, 200)
+show_terrain(terrain_chunk)
