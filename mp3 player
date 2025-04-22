@@ -1,0 +1,44 @@
+import tkinter as tk
+from tkinter import filedialog
+import pygame
+import os
+
+# Initialize pygame mixer
+pygame.mixer.init()
+
+# App window
+root = tk.Tk()
+root.title("Simple MP3 Player")
+root.geometry("400x300")
+
+# Listbox to show songs
+song_listbox = tk.Listbox(root, width=50)
+song_listbox.pack(pady=20)
+
+songs = []
+
+def load_folder():
+    folder_selected = filedialog.askdirectory()
+    if folder_selected:
+        for file in os.listdir(folder_selected):
+            if file.endswith(".mp3"):
+                full_path = os.path.join(folder_selected, file)
+                songs.append(full_path)
+                song_listbox.insert(tk.END, file)
+
+def play_song():
+    selected = song_listbox.curselection()
+    if selected:
+        song_path = songs[selected[0]]
+        pygame.mixer.music.load(song_path)
+        pygame.mixer.music.play()
+
+def stop_song():
+    pygame.mixer.music.stop()
+
+# Buttons
+tk.Button(root, text="Load Music Folder", command=load_folder).pack(pady=5)
+tk.Button(root, text="Play", command=play_song).pack(pady=5)
+tk.Button(root, text="Stop", command=stop_song).pack(pady=5)
+
+root.mainloop()
